@@ -45,6 +45,19 @@ $ sam delete
 aws-sam-cli-managed-default/5bf4ad70-9114-11ef-960e-0ef49295c121	CloudFormation	Stack
 aws-sam-cli-managed-default-samclisourcebucket-qazglyyuncwb			SNS	Topic
 
+## 分かってる問題点
+
+### IAMにタグが付かない
+
+* IAM Role: CreateRole
+* IAM User: CreateUser
+
+この辺にタグが付いてくれない
+
+### なんかしらんエラーログがいっぱい出る
+
+動作はするんだけどねー
+
 # 以下は元のドキュメントです
 
 ## About
