@@ -48,7 +48,6 @@ def lambda_handler(evt, _):
                 logger.warning('Execute canceled: no target(s) to tag')
                 return
 
-            logger.info('Execute finished: target - %s, tags - %s' % (json.dumps(targets), json.dumps(tags)))
             return
 
     logger.info('Execute exited: no matched/actived trigger')
