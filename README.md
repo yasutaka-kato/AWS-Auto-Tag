@@ -1,5 +1,52 @@
 # AWS AUTO TAG
 
+## これなに？
+
+[AWS-Auto-Tag](https://github.com/SolardiaX/AWS-Auto-Tag)というOSSを改造して、リソースが作成された時に<br>
+
+- 作成者のIAM ARM
+- 作られた日時(UTC)
+
+を自動的にタグ付けするLambda関数です
+
+## デプロイ方法
+
+![image](https://github.com/user-attachments/assets/389b94dd-fafd-4334-94ec-b2bdba4e4ee3)
+から以下のコマンドを実行する
+
+```
+$ git clone https://github.com/yasutaka-kato/AWS-Auto-Tag
+$ cd AWS-Auto-Tag
+$ sam build
+$ sam deploy --guided --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM
+  Stack Name [AWS-Auto-Tag]: 
+  AWS Region [ap-northeast-1]: 
+  Parameter EnableLog [True]: 
+  Parameter LogRetentionInDays [7]: 
+  #Shows you resources changes to be deployed and require a 'Y' to initiate deploy
+  Confirm changes before deploy [y/N]: 
+  #SAM needs permission to be able to create roles to connect to the resources in your template
+  Allow SAM CLI IAM role creation [Y/n]: 
+  #Preserves the state of previously provisioned resources when an operation fails
+  Disable rollback [y/N]: 
+  Save arguments to configuration file [Y/n]: 
+  SAM configuration file [samconfig.toml]: 
+  SAM configuration environment [default]: 
+```
+
+消すときは同じディレクトリから
+
+```
+$ sam delete
+```
+
+ただ、deleteだとゴミが残るっぽいので注意
+
+aws-sam-cli-managed-default/5bf4ad70-9114-11ef-960e-0ef49295c121	CloudFormation	Stack
+aws-sam-cli-managed-default-samclisourcebucket-qazglyyuncwb			SNS	Topic
+
+# 以下は元のドキュメントです
+
 ## About
 
 AWS-Auto-Tag is an open-to-use solution to tag AWS resources when they are created. Tags can be set by json format configuration, support using of expression keys/values, conditional and restrict for specific service.
