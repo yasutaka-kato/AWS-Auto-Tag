@@ -24,10 +24,10 @@ class IAMRoleWorker(Worker):
     def _role_name(self) -> str:
         return self.context.responseElements.role.roleName
 
-    def execute(self, tags: dict[str, str]) -> dict[str, str | list[str]]:
+    def execute(self, owner_name, create_date):
         self._client.tag_role(
             RoleName=self._role_name,
-            Tags=[{'Key': key, 'Value': val} for key, val in tags.items()]
+            Tags=[{'Key': 'owner', 'Value': owner_name},{'Key': 'create', 'Value': create_date}]
         )
 
         return {'iamrole': self._role_name}

@@ -23,12 +23,12 @@ class S3Worker(Worker):
     def _bucket_name(self) -> str:
         return self.context.requestParameters.bucketName
 
-    def execute(self, tags: dict[str, str]) -> dict[str, str | list[str]]:
+    def execute(self, owner_name, create_date):
         self._client.put_bucket_tagging(
             Bucket=self._bucket_name,
             Tagging={
                 'TagSet': [
-                    {'Key': key, 'Value': val} for key, val in tags.items()
+                    {'Key': 'owner', 'Value': owner_name},{'Key': 'create', 'Value': create_date}
                 ]
             }
         )

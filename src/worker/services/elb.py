@@ -37,16 +37,16 @@ class ELBWorker(Worker):
     def _loadbalancer_arn(self) -> str:
         return self.context.responseElements.loadBalancers[0].loadBalancerArn if self._is_loadbalancer_v2 else None
 
-    def execute(self, tags: dict[str, str]) -> dict[str, str | list[str]]:
+    def execute(self, owner_name, create_date):
         if self._is_loadbalancer_v2:
             self._client.add_tags(
                 ResourceArns=[self._loadbalancer_arn],
-                Tags=[{'Key': key, 'Value': val} for key, val in tags.items()]
+                Tags=[{'Key': 'owner', 'Value': owner_name},{'Key': 'create', 'Value': create_date}]
             )
         else:
             self._client.add_tags(
                 LoadBalancerNames=[self._loadbalancer_name],
-                Tags=[{'Key': key, 'Value': val} for key, val in tags.items()]
+                Tags=[{'Key': 'owner', 'Value': owner_name},{'Key': 'create', 'Value': create_date}]
             )
 
         return {'elb': self._loadbalancer_name}

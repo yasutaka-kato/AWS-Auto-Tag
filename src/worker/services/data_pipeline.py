@@ -24,10 +24,10 @@ class DataPipelineWorker(Worker):
     def _pipeline_id(self) -> str:
         return self.context.responseElements.pipelineId
 
-    def execute(self, tags: dict[str, str]) -> dict[str, str | list[str]]:
+    def execute(self, owner_name, create_date):
         self._client.add_tags(
             pipelineId=self._pipeline_id,
-            tags=tags
+            tags=[{'Key': 'owner', 'Value': owner_name},{'Key': 'create', 'Value': create_date}]
         )
 
         return {'ami': self._pipeline_id}

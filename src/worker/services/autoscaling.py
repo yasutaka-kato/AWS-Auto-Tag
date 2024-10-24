@@ -24,17 +24,23 @@ class AutoScalingWorker(Worker):
     def _autoscaling_group_name(self) -> str:
         return self.context.requestParameters.autoScalingGroupName
 
-    def execute(self, tags: dict[str, str]) -> dict[str, str | list[str]]:
+    def execute(self, owner_name, create_date):
         self._client.create_or_update_tags(
             Tags=[
                 {
-                    'Key': key,
-                    'Value': val,
+                    'Key': 'owner',
+                    'Value': owner_name,
+                    'ResourceId': self._autoscaling_group_name,
+                    'ResourceType': 'auto-scaling-group',
+                    'PropagateAtLaunch': False,
+                },
+                {
+                    'Key': 'create',
+                    'Value': create_date,
                     'ResourceId': self._autoscaling_group_name,
                     'ResourceType': 'auto-scaling-group',
                     'PropagateAtLaunch': False,
                 }
-                for key, val in tags.items()
             ]
         )
 

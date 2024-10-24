@@ -35,7 +35,7 @@ class EC2Worker(Worker):
         ec2_insts = self.client.describe_instances(InstanceIds=self._instance_ids)
         return DictX(ec2_insts)
 
-    def execute(self, tags: dict[str, str]) -> dict[str, str | list[str]]:
+    def execute(self, owner_name, create_date):
         if len(self._instances) == 0:
             return dict()
 
@@ -62,7 +62,7 @@ class EC2Worker(Worker):
 
             self.client.create_tags(
                 Resources=resource_ids,
-                Tags=[{'Key': key, 'Value': val} for key, val in tags.items()]
+                Tags=[{'Key': 'owner', 'Value': owner_name},{'Key': 'create', 'Value': create_date}]
             )
 
         return target

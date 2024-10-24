@@ -24,10 +24,11 @@ class IAMUserWorker(Worker):
     def _user_name(self) -> str:
         return self.context.responseElements.user.userName
 
-    def execute(self, tags: dict[str, str]) -> dict[str, str | list[str]]:
+    def execute(self, owner_name, create_date):
         self._client.tag_user(
             RoleName=self._user_name,
-            Tags=[{'Key': key, 'Value': val} for key, val in tags.items()]
+            Tags=[{'Key': 'owner', 'Value': owner_name},{'Key': 'create', 'Value': create_date}]
+        )
         )
 
         return {'iamuser': self._user_name}

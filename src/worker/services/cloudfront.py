@@ -24,10 +24,10 @@ class CloudFrontWorker(Worker):
     def _arn(self) -> str:
         return self.context.responseElements.distribution.aRN
 
-    def execute(self, tags: dict[str, str]) -> dict[str, str | list[str]]:
+    def execute(self, owner_name, create_date):
         self._client.tag_resource(
             Resource=self._arn,
-            Tags={'Items': [{'Key': key, 'Value': val} for key, val in tags.items()]}
+            Tags=[{'Key': 'owner', 'Value': owner_name},{'Key': 'create', 'Value': create_date}]
         )
 
         return {'cloudfront': self._arn}

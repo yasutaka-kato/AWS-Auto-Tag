@@ -32,10 +32,10 @@ class RDSWorker(Worker):
                self.context.responseElements.dBInstanceIdentifier]
         return ':'.join(arn)
 
-    def execute(self, tags: dict[str, str]) -> dict[str, str | list[str]]:
+    def execute(self, owner_name, create_date):
         self._client.add_tags_to_resource(
             ResourceName=self._db_arn,
-            Tags=[{'Key': key, 'Value': val} for key, val in tags.items()]
+            Tags=[{'Key': 'owner', 'Value': owner_name},{'Key': 'create', 'Value': create_date}]
         )
 
         return {'rds': self._db_arn}

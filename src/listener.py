@@ -28,33 +28,21 @@ def lambda_handler(evt, _):
     evt_dict = DictX(evt)
     detail = evt.get('detail', dict())
     event_name = detail.get('eventName', None)  # get the event name
+    owner_name = detail.get('userIdentity',{}).get('arn', None)
+    create_date = detail.get('eventTime', None)
     config = load_config()
 
     for t in config.triggers:
         if event_name in t.events:
-            logger.info('Trigger matched: %s-%s' % (t.service, event_name))
 
             if not Worker.is_registered(t.service):
                 logger.info('Trigger worker not register: %s', t.service)
                 continue
 
-            logger.info('Tagging with worker: %s' % t.service)
-
-            tags: dict[str, str] = {}
-            for tag in config.tags:
-                if len(tag.condition) > 0 and not eval_condition(tag.condition, evt_dict):
-                    continue
-
-                if len(tag.services) > 0 and t.service not in tag.services:
-                    continue
-
-                key = eval_exp(tag.key, evt_dict)
-                val = eval_exp(tag.value, evt_dict)
-                logger.info('Tagging with: Key = %s, Value = %s' % (key, val))
-                tags[key] = val
+            logger.info('Trigger matched: %s-%s Owner: %s Date: %s' % (t.service, event_name,owner_name,create_date))
 
             worker = Worker.by_name(t.service)(detail)
-            targets = worker.execute(tags)
+            targets = worker.execute(owner_name,create_date)
 
             if len(targets) == 0:
                 logger.warning('Execute canceled: no target(s) to tag')

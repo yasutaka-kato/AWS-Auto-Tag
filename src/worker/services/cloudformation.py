@@ -24,11 +24,11 @@ class CloudFormationWorker(Worker):
     def _stack_name(self) -> str:
         return self.context.requestParameters.stackName
 
-    def execute(self, tags: dict[str, str]) -> dict[str, str | list[str]]:
+    def execute(self, owner_name, create_date):
         self._client.update_stack(
             StackName=self._stack_name,
             UsePreviousTemplate=True,
-            Tags=[{'Key': key, 'Value': val} for key, val in tags.items()]
+            Tags=[{'Key': 'owner', 'Value': owner_name},{'Key': 'create', 'Value': create_date}]
         )
 
         return {'cloudformation': self._stack_name}
