@@ -29,6 +29,5 @@ class IAMUserWorker(Worker):
             RoleName=self._user_name,
             Tags=[{'Key': 'owner', 'Value': owner_name},{'Key': 'create', 'Value': create_date}]
         )
-        )
 
         return {'iamuser': self._user_name}
