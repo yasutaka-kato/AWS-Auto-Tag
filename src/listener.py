@@ -32,6 +32,17 @@ def lambda_handler(evt, _):
     create_date = detail.get('eventTime', None)
     config = load_config()
 
+    project_name = "NONE"
+
+    if '_' in owner_name:
+        project_name = owner_name.split('_')[-1]
+
+    if ':root' in owner_name:
+        project_name = "admin"
+
+    if '-admin' in owner_name:
+        project_name = "admin"
+
     for t in config.triggers:
         if event_name in t.events:
 
@@ -39,10 +50,10 @@ def lambda_handler(evt, _):
                 logger.info('Trigger worker not register: %s', t.service)
                 continue
 
-            logger.info('Trigger matched: %s-%s Owner: %s Date: %s' % (t.service, event_name,owner_name,create_date))
+            logger.info('Trigger matched: %s-%s Owner: %s Date: %s Project: %s' % (t.service, event_name,owner_name,create_date,project_name))
 
             worker = Worker.by_name(t.service)(detail)
-            targets = worker.execute(owner_name,create_date)
+            targets = worker.execute(owner_name,create_date,project_name)
 
             if len(targets) == 0:
                 logger.warning('Execute canceled: no target(s) to tag')

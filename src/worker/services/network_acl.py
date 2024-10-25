@@ -24,10 +24,10 @@ class NetworkACLWorker(Worker):
     def _network_acl_id(self) -> str:
         return self.context.responseElements.networkAcl.networkAclId
 
-    def execute(self, owner_name, create_date):
+    def execute(self, owner_name, create_date,project_name):
         self._client.create_tags(
             Resources=[self._network_acl_id],
-            Tags=[{'Key': 'owner', 'Value': owner_name},{'Key': 'create', 'Value': create_date}]
+            Tags=[{'Key': 'owner', 'Value': owner_name},{'Key': 'create', 'Value': create_date},{'Key': 'project', 'Value': project_name}]
         )
 
         return {'nacl': self._network_acl_id}
