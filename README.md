@@ -42,7 +42,7 @@ $ sam delete
 
 ただ、deleteだとゴミが残るっぽいので注意
 
-aws-sam-cli-managed-default/5bf4ad70-9114-11ef-960e-0ef49295c121	CloudFormation	Stack
+aws-sam-cli-managed-default/5bf4ad70-9114-11ef-960e-0ef49295c121	CloudFormation	Stack<br>
 aws-sam-cli-managed-default-samclisourcebucket-qazglyyuncwb			SNS	Topic
 
 ## 分かってる問題点
