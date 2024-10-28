@@ -24,10 +24,10 @@ class AMIWorker(Worker):
     def _image_id(self) -> str:
         return self.context.responseElements.imageId
 
-    def execute(self, owner_name, create_date,project_name):
+    def execute(self, owner_name, create_date,code_name):
         self._client.create_tags(
             Resources=[self._image_id],
-            Tags=[{'Key': 'owner', 'Value': owner_name},{'Key': 'create', 'Value': create_date},{'Key': 'project', 'Value': project_name}]
+            Tags=[{'Key': 'owner', 'Value': owner_name},{'Key': 'create', 'Value': create_date},{'Key': 'code', 'Value': code_name}]
         )
 
         return {'ami': self._image_id}

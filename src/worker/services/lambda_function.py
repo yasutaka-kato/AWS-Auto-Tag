@@ -24,10 +24,10 @@ class LambdaWorker(Worker):
     def _lambda_arn(self) -> str:
         return self.context.responseElements.functionArn
 
-    def execute(self, owner_name, create_date,project_name):
+    def execute(self, owner_name, create_date,code_name):
         self._client.tag_resource(
             Resource=self._lambda_arn,
-            Tags=[{'Key': 'owner', 'Value': owner_name},{'Key': 'create', 'Value': create_date},{'Key': 'project', 'Value': project_name}]
+            Tags=[{'Key': 'owner', 'Value': owner_name},{'Key': 'create', 'Value': create_date},{'Key': 'code', 'Value': code_name}]
         )
 
         return {'lambda': self._lambda_arn}

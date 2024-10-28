@@ -24,10 +24,10 @@ class CloudWatchLogGroupWorker(Worker):
     def _log_group_name(self) -> str:
         return self.context.requestParameters.logGroupName
 
-    def execute(self, owner_name, create_date,project_name):
+    def execute(self, owner_name, create_date,code_name):
         self._client.tag_log_group(
             logGroupName=self._log_group_name,
-            Tags=[{'Key': 'owner', 'Value': owner_name},{'Key': 'create', 'Value': create_date},{'Key': 'project', 'Value': project_name}]
+            Tags=[{'Key': 'owner', 'Value': owner_name},{'Key': 'create', 'Value': create_date},{'Key': 'code', 'Value': code_name}]
         )
 
         return {'cloudwatch:loggroup': self._log_group_name}

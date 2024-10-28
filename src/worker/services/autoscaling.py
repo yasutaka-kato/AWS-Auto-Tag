@@ -24,7 +24,7 @@ class AutoScalingWorker(Worker):
     def _autoscaling_group_name(self) -> str:
         return self.context.requestParameters.autoScalingGroupName
 
-    def execute(self, owner_name, create_date,project_name):
+    def execute(self, owner_name, create_date,code_name):
         self._client.create_or_update_tags(
             Tags=[
                 {
@@ -42,8 +42,8 @@ class AutoScalingWorker(Worker):
                     'PropagateAtLaunch': False,
                 },
                 {
-                    'Key': 'project',
-                    'Value': project_name,
+                    'Key': 'code',
+                    'Value': code_name,
                     'ResourceId': self._autoscaling_group_name,
                     'ResourceType': 'auto-scaling-group',
                     'PropagateAtLaunch': False,

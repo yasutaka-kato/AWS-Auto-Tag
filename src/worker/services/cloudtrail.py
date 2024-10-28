@@ -24,10 +24,10 @@ class CloudTrailWorker(Worker):
     def _trail_arn(self) -> str:
         return self.context.responseElements.trailARN
 
-    def execute(self, owner_name, create_date,project_name):
+    def execute(self, owner_name, create_date,code_name):
         self._client.add_tags(
             ResourceId=self._trail_arn,
-            TagsList=[{'Key': 'owner', 'Value': owner_name},{'Key': 'create', 'Value': create_date},{'Key': 'project', 'Value': project_name}]
+            TagsList=[{'Key': 'owner', 'Value': owner_name},{'Key': 'create', 'Value': create_date},{'Key': 'code', 'Value': code_name}]
         )
 
         return {'cloudtrail': self._trail_arn}

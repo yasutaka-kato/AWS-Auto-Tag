@@ -24,10 +24,10 @@ class DynamoDBWorker(Worker):
     def _table_arn(self) -> str:
         return self.context.responseElements.tableDescription.tableArn
 
-    def execute(self, owner_name, create_date,project_name):
+    def execute(self, owner_name, create_date,code_name):
         self._client.tag_resource(
             ResourceArn=self._table_arn,
-            Tags=[{'Key': 'owner', 'Value': owner_name},{'Key': 'create', 'Value': create_date},{'Key': 'project', 'Value': project_name}]
+            Tags=[{'Key': 'owner', 'Value': owner_name},{'Key': 'create', 'Value': create_date},{'Key': 'code', 'Value': code_name}]
         )
 
         return {'dynamodb': self._table_arn}
