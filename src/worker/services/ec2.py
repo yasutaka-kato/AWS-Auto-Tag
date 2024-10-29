@@ -62,7 +62,7 @@ class EC2Worker(Worker):
 
             self.client.create_tags(
                 Resources=resource_ids,
-                Tags=[{'Key': 'owner', 'Value': owner_name},{'Key': 'create', 'Value': create_date},{'Key': 'code', 'Value': code_name}]
+                Tags=[{'Key': 'owner', 'Value': owner_name},{'Key': 'create', 'Value': create_date},{'Key': 'code', 'Value': code_name},{'Key': 'Auto:StartAt', 'Value': '9'},{'Key': 'Auto:StopAt', 'Value': '21'}]
             )
 
         return target

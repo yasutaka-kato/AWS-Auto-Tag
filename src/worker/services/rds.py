@@ -35,7 +35,7 @@ class RDSWorker(Worker):
     def execute(self, owner_name, create_date,code_name):
         self._client.add_tags_to_resource(
             ResourceName=self._db_arn,
-            Tags=[{'Key': 'owner', 'Value': owner_name},{'Key': 'create', 'Value': create_date},{'Key': 'code', 'Value': code_name}]
+            Tags=[{'Key': 'owner', 'Value': owner_name},{'Key': 'create', 'Value': create_date},{'Key': 'code', 'Value': code_name},{'Key': 'Auto:StartAt', 'Value': '9'},{'Key': 'Auto:StopAt', 'Value': '21'}]
         )
 
         return {'rds': self._db_arn}
